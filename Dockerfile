@@ -24,8 +24,6 @@ ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-
 
 USER root
 
-RUN chown -Rh $user:$user /project
-
 # -----------------------------------------------------------------------------
 # Install
 # -----------------------------------------------------------------------------
