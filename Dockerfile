@@ -24,6 +24,7 @@ ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-
 
 USER root
 
+
 # -----------------------------------------------------------------------------
 # Install
 # -----------------------------------------------------------------------------
@@ -42,6 +43,7 @@ RUN \
   && rm "node-v$NODE_VERSION-linux-x64.tar.gz" \
   && npm install -g npm@"$NPM_VERSION" \
   && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" \
+  && npm install -g cordova-res \
   && npm config set unsafe-perm true
 
 
@@ -71,6 +73,7 @@ RUN mkdir -p ${ANDROID_HOME} && cd "$ANDROID_HOME" \
 	&& sdkmanager "platform-tools" \
 	&& sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
 
+RUN chown -R root /usr/local/lib/node_modules/
 WORKDIR /project
 EXPOSE 8100 35729 53703
 CMD ionic serve
