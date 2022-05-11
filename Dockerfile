@@ -16,7 +16,10 @@ ARG ANDROID_BUILD_TOOLS_VERSION=25.2.5
 
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV GRADLE_HOME /opt/gradle
-ENV PATH ${PATH}:${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin
+ENV PATH ${PATH}:${GRADLE_HOME}/bin
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/tools/bin
+ENV PATH ${PATH}:${ANDROID_HOME}/platform-tools
 ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 
 # -----------------------------------------------------------------------------
