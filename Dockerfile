@@ -13,34 +13,19 @@ ARG GRADLE_VERSION=4.1
 ENV ANDROID_VERSION=25
 
 ARG ANDROID_BUILD_TOOLS_VERSION=25.2.5
-ARG ANDROID_PLATFORMS="android-21 android-22 android-23 android-24 android-25"
 
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV GRADLE_HOME /opt/gradle
-ENV PATH ${PATH}:${GRADLE_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+ENV PATH ${PATH}:${GRADLE_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/cmdline-tools/tools/bin
 ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 
-# -----------------------------------------------------------------------------
-# Pre-install
-# -----------------------------------------------------------------------------
-RUN \
-  dpkg --add-architecture i386 \
-  && apt-get update -y \
-  && apt-get install -y \
-
-    # tools
-    curl \
-    wget \
-    zip \
-    vim python3-venv python3-pip \
-    git
-    
 # -----------------------------------------------------------------------------
 # Install
 # -----------------------------------------------------------------------------
 
 # Install Java
-RUN apt-get install -y --no-install-recommends openjdk-8-jdk
+RUN apt-get update  \
+ && apt-get install -y --no-install-recommends openjdk-8-jdk ca-certificates fontconfig locales unzip curl wget zip im python3-venv python3-pip git
 
 # Install Node and NPM
 RUN \
