@@ -10,9 +10,9 @@ ARG IONIC_VERSION=5.2.7
 ARG CORDOVA_VERSION=8.1.2
 
 ARG GRADLE_VERSION=4.1
-ENV ANDROID_VERSION=25
+ENV ANDROID_VERSION=28
 
-ARG ANDROID_BUILD_TOOLS_VERSION=25.2.5
+ARG ANDROID_BUILD_TOOLS_VERSION=30.0.2
 
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV GRADLE_HOME /opt/gradle
@@ -55,7 +55,10 @@ RUN mkdir -p ${ANDROID_HOME} && cd "$ANDROID_HOME" \
 	&& mv cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/tools \
 	&& rm sdk.zip \
 	&& mkdir -p "$ANDROID_HOME/licenses" || true \
-	&& echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license" \
+    && echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" \
+    && echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license" \
+    && echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license" \
+    && echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license" \
 	&& sdkmanager --version \
 	&& yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses \
 	&& sdkmanager "platforms;android-${ANDROID_VERSION}" \
