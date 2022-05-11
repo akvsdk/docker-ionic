@@ -81,6 +81,3 @@ CMD ionic serve
 # Clean up
 # -----------------------------------------------------------------------------
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-docker run -it --name  ionic -v /opt/ionic/survey:/project  akvsdk/ionic-ce-docker:latest
-docker run --rm  -it  --name ionic-ce -v /opt/ionic/survey:/project registry.cn-hangzhou.aliyuncs.com/akvsdk/ionic-ce:v1
