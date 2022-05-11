@@ -1,5 +1,5 @@
-FROM ubuntu:17.04
-MAINTAINER 2009 <2009@space.computer>
+FROM ubuntu:18.04
+MAINTAINER J1ang <akvsdk@gmail.com>
 
 # -----------------------------------------------------------------------------
 # Environment variables
