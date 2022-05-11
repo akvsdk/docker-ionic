@@ -22,13 +22,19 @@ ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools/tools/bin
 ENV PATH ${PATH}:${ANDROID_HOME}/platform-tools
 ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 
+USER root
+
+RUN chown -Rh $user:$user /project
+
 # -----------------------------------------------------------------------------
 # Install
 # -----------------------------------------------------------------------------
 
+
 # Install Java
 RUN apt-get update  \
- && apt-get install -y --no-install-recommends openjdk-8-jdk ca-certificates fontconfig locales unzip curl wget zip im python3-venv python3-pip git
+ && apt-get install -y --no-install-recommends openjdk-8-jdk ca-certificates fontconfig locales unzip curl wget zip im python3-venv python3-pip git \
+ && echo "root:admin" | chpasswd 
 
 # Install Node and NPM
 RUN \
@@ -37,7 +43,9 @@ RUN \
   && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.gz" \
   && npm install -g npm@"$NPM_VERSION" \
-  && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION"
+  && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" \
+  && npm config set unsafe-perm true
+
 
 # Download and install Gradle
 RUN \
@@ -73,3 +81,6 @@ CMD ionic serve
 # Clean up
 # -----------------------------------------------------------------------------
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+docker run -it --name  ionic -v /opt/ionic/survey:/project  akvsdk/ionic-ce-docker:latest
+docker run --rm  -it  --name ionic-ce -v /opt/ionic/survey:/project registry.cn-hangzhou.aliyuncs.com/akvsdk/ionic-ce:v1
