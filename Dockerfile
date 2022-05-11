@@ -10,12 +10,15 @@ ARG IONIC_VERSION=5.2.7
 ARG CORDOVA_VERSION=8.1.2
 
 ARG GRADLE_VERSION=4.1
+ENV ANDROID_VERSION=25
+
 ARG ANDROID_BUILD_TOOLS_VERSION=25.2.5
 ARG ANDROID_PLATFORMS="android-21 android-22 android-23 android-24 android-25"
 
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV GRADLE_HOME /opt/gradle
 ENV PATH ${PATH}:${GRADLE_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+ARG ANDROID_TOOLS_URL=https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
 
 # -----------------------------------------------------------------------------
 # Pre-install
@@ -29,16 +32,9 @@ RUN \
     curl \
     wget \
     zip \
-
-    # android-sdk dependencies
-    libc6-i386 \
-    lib32stdc++6 \
-    lib32gcc1 \
-    lib32ncurses5 \
-    lib32z1 \
-    qemu-kvm \
-    kmod
-
+    vim python3-venv python3-pip \
+    git
+    
 # -----------------------------------------------------------------------------
 # Install
 # -----------------------------------------------------------------------------
@@ -63,34 +59,20 @@ RUN \
   && ls -d */ | sed 's/\/*$//g' | xargs -I{} mv {} gradle \
   && rm gradle*.zip
 
-# Download an install the latest Android SDK
-RUN \
-  mkdir -p $ANDROID_HOME && cd $ANDROID_HOME \
-  && wget -q $(wget -q -O- 'https://developer.android.com/sdk' | \
-     grep -o "\"https://.*android.*tools.*linux.*\"" | sed "s/\"//g") \
-  && unzip *tools*linux*.zip \
-  && rm *tools*linux*.zip
 
-# Accept the license agreements of the SDK components
-RUN \
-  export ANDROID_LICENSES="$ANDROID_HOME/licenses" \
-  && [ -d $ANDROID_LICENSES ] || mkdir $ANDROID_LICENSES \
-  && [ -f $ANDROID_LICENSES/android-sdk-license ] || echo 8933bad161af4178b1185d1a37fbf41ea5269c55 > $ANDROID_LICENSES/android-sdk-license \
-  && [ -f $ANDROID_LICENSES/android-sdk-preview-license ] || echo 84831b9409646a918e30573bab4c9c91346d8abd > $ANDROID_LICENSES/android-sdk-preview-license \
-  && [ -f $ANDROID_LICENSES/intel-android-extra-license ] || echo d975f751698a77b662f1254ddbeed3901e976f5a > $ANDROID_LICENSES/intel-android-extra-license \
-  && unset ANDROID_LICENSES
-
-# -----------------------------------------------------------------------------
-# Post-install
-# -----------------------------------------------------------------------------
-
-RUN \
-  sdkmanager \
-    "platform-tools" \
-    "build-tools;$ANDROID_BUILD_TOOLS_VERSION"
-
-RUN \
-  for i in ${ANDROID_PLATFORMS}; do sdkmanager "platforms;$i"; done
+# Download Android SDK\
+RUN mkdir -p ${ANDROID_HOME} && cd "$ANDROID_HOME" \
+	&& curl -o sdk.zip $ANDROID_TOOLS_URL \
+	&& unzip sdk.zip -d ${ANDROID_HOME}/cmdline-tools \
+	&& mv cmdline-tools/cmdline-tools ${ANDROID_HOME}/cmdline-tools/tools \
+	&& rm sdk.zip \
+	&& mkdir -p "$ANDROID_HOME/licenses" || true \
+	&& echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_HOME/licenses/android-sdk-license" \
+	&& sdkmanager --version \
+	&& yes | sdkmanager --sdk_root=${ANDROID_HOME} --licenses \
+	&& sdkmanager "platforms;android-${ANDROID_VERSION}" \
+	&& sdkmanager "platform-tools" \
+	&& sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
 
 WORKDIR /project
 EXPOSE 8100 35729 53703
