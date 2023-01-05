@@ -32,7 +32,7 @@ USER root
 
 # Install Java
 RUN apt-get update  \
- && apt-ge remove gpg \
+ && apt-get remove gpg \
  && apt-get install -y --no-install-recommends openjdk-8-jdk ca-certificates fontconfig locales unzip curl wget zip im python3-venv python3-pip git  gnupg dirmngr\
  && echo "root:admin" | chpasswd 
 
