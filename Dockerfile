@@ -72,7 +72,7 @@ RUN mkdir -p ${ANDROID_HOME} && cd "$ANDROID_HOME" \
 	&& sdkmanager "platform-tools" \
 	&& sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}"
 
-RUN chown -R root /usr/local/lib/node_modules/
+RUN chown -R root /usr/lib/node_modules/
 WORKDIR /project
 EXPOSE 8100 35729 53703
 CMD ionic serve
