@@ -77,7 +77,7 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
   # smoke tests
   && node --version \
-  && npm --version
+  && npm --version  \
   && npm install -g npm@"$NPM_VERSION" \
   && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" \
   && npm install -g cordova-res \
