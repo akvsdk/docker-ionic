@@ -37,7 +37,7 @@ RUN apt-get update  \
  && echo "root:admin" | chpasswd 
 
 # Install Node and NPM
-RUN curl -fsSL https://deb.nodesource.com/setup_12.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get install -y nodejs \
   && node --version \
   && npm --version  \
