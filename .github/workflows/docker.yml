@@ -4,8 +4,7 @@ name: Docker Image
     branches: ["lj"]
     tags:
       - v*
-    watch:
-      types: started
+  workflow_dispatch:
 jobs:
   docker:
     runs-on: ubuntu-latest
