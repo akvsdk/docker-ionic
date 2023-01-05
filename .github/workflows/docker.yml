@@ -1,12 +1,13 @@
 name: Docker Image
 
 on:
-  schedule:
-    - cron: "0 18 * * *" # everyday at 6pm
+  # schedule:
+  #   - cron: "0 18 * * *" # everyday at 6pm
   push:
-    branches: ["**"]
+    # branches: ["**"]
     tags: ["v*.*.*"]
-
+  workflow_dispatch:
+  
 env:
   platforms: linux/amd64
 
