@@ -43,7 +43,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
   && npm --version  \
   && npm install -g npm@"$NPM_VERSION" \
   && npm install -g cordova@"$CORDOVA_VERSION" ionic@"$IONIC_VERSION" \
-  && npm install -g cordova-res 
+  && npm install -g cordova-res \
+  && npm root -g
 
 # Download and install Gradle
 RUN \
